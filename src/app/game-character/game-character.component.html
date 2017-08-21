@@ -1,0 +1,26 @@
+<div class="flex-container">
+  <div class="character-box flex-container">
+    <div class="character-image">
+      <img [src]="character.image">
+    </div>
+    <div class="character-description">
+      <ul>
+        <li>Name: 
+          <span [hidden]="edited">{{ character.name }}</span>
+          <input [hidden]="!edited" type="text" [(ngModel)]="character.name" />
+        </li>
+        <li>Race: 
+            <span [hidden]="edited">{{ character.race }}</span>
+            <select [hidden]="!edited" [(ngModel)]="character.race">
+              <option *ngFor="let race of availableRaces">{{race}}</option>
+              
+            </select>
+        </li>
+        <li>Class: {{ character.class}}</li>
+        <li>Gender: {{ character.gender}}</li>
+      </ul> 
+      <button [hidden]="edited" (click)="edit()">Edit</button>    
+      <button [hidden]="!edited" (click)="save(character)">Save</button>
+    </div>  
+  </div> 
+</div>

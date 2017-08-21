@@ -1,0 +1,21 @@
+:host() {
+    display: block;
+}
+
+.flex-container {
+    display: flex;
+}
+
+.character-box {
+    width: 31%;
+}
+
+.character-description {
+    padding-left: 10px;
+
+    li {
+        display: inline-block;
+        padding: 5px;
+        list-style: none;
+    }
+}
