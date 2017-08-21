@@ -40,6 +40,23 @@ export class GameLoginService {
     });
   }
 
+  register(user) {
+    const url = 'http://localhost:3000/v1/auth/register';
+    const body = {
+        email: user.email,
+        password: user.password
+    };
+
+    return this.http.post(url, body).map((response: Response) => {
+      const data = response.json();
+      
+      return data;
+    })
+    .catch(res => {
+      return Observable.throw(res.json());
+    });
+  }
+
   logout() {
     localStorage.removeItem('userToken');
     this.router.navigate(['login']);

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GameLoginComponent } from './game-login.component';
 import { GameLoginRegisterComponent } from './game-login-register.component';
+import { GameLoginFormComponent } from './game-login-form.component';
 import { GameLoginService } from './game-login.service';
 import { routerModule } from './game-login.routing';
 
@@ -15,11 +16,13 @@ import { routerModule } from './game-login.routing';
   ],
   declarations: [
     GameLoginComponent,
-    GameLoginRegisterComponent
+    GameLoginRegisterComponent,
+    GameLoginFormComponent
   ],
   exports: [
     GameLoginComponent,
-    GameLoginRegisterComponent
+    GameLoginRegisterComponent,
+    GameLoginFormComponent
   ],
   providers: [
     GameLoginService
