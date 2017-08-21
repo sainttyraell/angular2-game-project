@@ -6,15 +6,12 @@ import { ActivatedRoute, Router } from '@angular/router';
   selector: 'game-login-form',
   template: `
   <form #form="ngForm" novalidate (ngSubmit)="submit(form.valid)">
-  <div class="col-6">
-    <div *ngIf="loginError" class="from-group row alert alert-danger" role="alert">
-      Wrong Credentials. Ensure that your email or password is correct.
+  <div class="col-6" *ngIf="!registered">
+    <div *ngIf="loginError?.flag" class="from-group row alert alert-danger" role="alert">
+      {{loginError.message}}
     </div>
-    <div *ngIf="registerError" class="from-group row alert alert-danger" role="alert">
-      Error. User has not been created. Please try again.
-    </div>
-    <div *ngIf="registerSuccess" class="from-group row alert alert-success" role="alert">
-       User has been created successfuly. You can login now.
+    <div *ngIf="registerError?.flag" class="from-group row alert alert-danger" role="alert">
+      {{registerError.message}}
     </div>
     <div class="form-group row login-row">
       <label for="email" class="col-2 col-form-label">Email:</label>
@@ -55,12 +52,17 @@ import { ActivatedRoute, Router } from '@angular/router';
     <div class="form-group row justify-content-end" [ngSwitch]="formType">
     <div *ngSwitchCase="'login'">
       <button type="submit" class="btn btn-primary">Login</button>
-      <button type="button" class="btn btn-secondary ml-2 mr-3" (click)="registerUser()">Register</button>
+      <button type="button" class="btn btn-secondary ml-2 mr-3" (click)="redirectTo('register')">Register</button>
     </div>
     <div *ngSwitchCase="'register'">
       <button type="submit" class="btn btn-primary ml-2">Register</button>
-      <button type="button" class="btn btn-secondary ml-2 mr-3" (click)="backToHome()">Back</button>
+      <button type="button" class="btn btn-secondary ml-2 mr-3" (click)="redirectTo('login')">Back</button>
     </div> 
+    </div>
+  </div>
+  <div class="col-6" *ngIf="registered">
+    <div class="from-group row alert alert-success" role="alert">
+      User has been successfully created! You can&nbsp;<a routerLink="/login">log in now</a>
     </div>
   </div>
 </form>
@@ -74,8 +76,10 @@ export class GameLoginFormComponent implements OnInit {
   @Input()
   formType;
 
-  loginError = false;
-  registerError = false;
+  loginError;
+  registerError;
+  registered;
+
   user = {
     email: '',
     password: ''
@@ -87,12 +91,8 @@ export class GameLoginFormComponent implements OnInit {
   ) {
   }
 
-  backToHome() {
-    this.router.navigate(['login']);
-  }
-
-  registerUser() {
-    this.router.navigate(['register']);
+  redirectTo(url = '') {
+    this.router.navigate([url]);
   }
 
   submit(formValid) {
@@ -102,21 +102,13 @@ export class GameLoginFormComponent implements OnInit {
 
     if (this.formType === 'login') {
       this.loginService.login(this.user).subscribe(
-        data => {
-          this.router.navigate(['dashboard']);
-        },
-        error => {
-          this.loginError = true;
-        }
+        () => this.redirectTo('dashboard'),
+        error =>  this.loginError = {flag: true, message: error.message}
       );
     } else {
       this.loginService.register(this.user).subscribe(
-        data => {
-          this.backToHome();
-        },
-        error => {
-          this.registerError = true;
-        }
+        () => this.registered = true,
+        error => this.registerError = {flag: true, message: error.message}
       );
     }
   }
