@@ -1,29 +1,23 @@
-<div class="flex-container">
-  <div class="container" *ngIf="character">
+<div class="container">
+  <div class="row" *ngIf="character.id">
     <div class="col-4">
       <img [src]="character.image">
     </div>
     <div class="col-8">
       <ul>
         <li>Name: 
-          <span [hidden]="edited">{{ character.name }}</span>
-          <input [hidden]="!edited" type="text" [(ngModel)]="character.name" />
+          <span>{{ character.name }}</span>
         </li>
         <li>Race: 
-            <span [hidden]="edited">{{ character.race }}</span>
-            <select [hidden]="!edited" [(ngModel)]="character.race">
-              <option *ngFor="let race of availableRaces">{{race}}</option>
-              
-            </select>
+            <span>{{ character.race }}</span>
         </li>
-        <li>Class: {{ character.class}}</li>
+        <li>Class: {{ character.clas}}</li>
         <li>Gender: {{ character.gender}}</li>
+        <li>Level: {{ character.level}}</li>
       </ul> 
-      <button [hidden]="edited" (click)="edit()">Edit</button>    
-      <button [hidden]="!edited" (click)="save(character)">Save</button>
     </div>  
   </div>
-  <div class="container" *ngIf="!character">
+  <div class="container" *ngIf="!character.id">
     <div class="alert alert-warning">
         You dont have any character yet. You can <strong routerLink="/character/create">Create one here</strong>
     </div>

@@ -1,0 +1,68 @@
+<div class="container">
+  <div class="row">
+      <h4>Character creation</h4>
+      <span role="alert" class="alert alert-warning">
+        You are able to have only one character per account. Once created character cannot be replaced. Please choose it carefully.
+      </span>
+  </div>
+  
+  <form #createForm="ngForm" (ngSubmit)="submit(createForm.valid, character)" novalidate>
+    <div class="form-group row">
+      <label for="name" class="col-3 col-form-label">Name:</label>
+      <div class="col-9">
+        <input class="form-control" minlength="3" #nameField="ngModel" [(ngModel)]="character.name" required name="name" type="text">
+        <span
+          *ngIf="nameField.errors?.required && createForm.submitted"
+          class="text-danger"
+        >
+          Field can not be empty.
+        </span>
+        <span
+          *ngIf="nameField.errors?.minlength && createForm.submitted"
+          class="text-danger"
+        >
+          Name is too short.
+        </span>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="name" class="col-3 col-form-label">Race:</label>
+      <div class="col-9">
+          <select #raceField="ngModel" class="form-control" required [(ngModel)]="character.race" name="race">
+            <option *ngFor="let race of races" [value]="race">{{race}}</option>
+          </select>
+          <span
+          *ngIf="raceField.errors?.required && createForm.submitted"
+          class="text-danger"
+        >
+          Field can not be empty.
+        </span>
+        </div>
+    </div>
+    <div class="form-group row">
+      <label for="clas" class="col-3 col-form-label">Class:</label>
+      <div class="col-9">
+        <select  #clasField="ngModel" class="form-control" required [(ngModel)]="character.class" name="clas">
+          <option *ngFor="let class of classes" [value]="class">{{class}}</option>
+        </select>
+        <span
+          *ngIf="clasField.errors?.required && createForm.submitted"
+          class="text-danger"
+        >
+          Field can not be empty.
+      </span>
+      </div>
+    </div>
+    <div class="form-group row">
+        <label for="clas" class="col-3 col-form-label">Gender:</label>
+        <div class="col-9">
+          <div *ngFor="let gender of genders">
+              <label class="form-ckeck-input">
+                <input type="radio" [(ngModel)]="character.gender" name="gender" [value]="gender">{{gender}} 
+              </label>
+          </div>
+        </div>
+      </div>
+    <button class="btn btn-primary" type="submit">Create it!</button>  
+  </form>
+</div>

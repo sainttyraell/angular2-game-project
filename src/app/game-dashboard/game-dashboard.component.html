@@ -2,7 +2,8 @@
   <div class="row mt-5">
     <div class="col-4">
       <div class="logged-as">
-          <h6>Logged as: {{user.email}} 
+          <div>Logged as:</div>
+          <h6>{{user.email}} 
             <span class="badge badge-primary">Edit</span>
             <span class="badge badge-danger" (click)="logout()">logout</span>         
           </h6>

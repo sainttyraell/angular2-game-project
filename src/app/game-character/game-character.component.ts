@@ -9,9 +9,8 @@ import { GameCharacterService } from './game-character.service';
 export class GameCharacterComponent implements OnInit {
   character = {};
   edited = false;
-  availableRaces = ['Human', 'Orc', 'Elf', 'Dark Elf'];
 
-  constructor(private gameCharacterService: GameCharacterService) {
+  constructor(private characterService: GameCharacterService) {
 
   }
 
@@ -20,14 +19,15 @@ export class GameCharacterComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.character = undefined; //this.gameCharacterService.getCharacter();
-    if(!this.character) {
-
-    }
+    this.characterService.getCharacter().subscribe(
+      char => {
+        this.character = char;
+      }
+    );
   }
 
   save(character) {
-    this.character = this.gameCharacterService.saveCharacter(character);
+    this.character = this.characterService.saveCharacter(character);
     this.edited = false;
   }
 
