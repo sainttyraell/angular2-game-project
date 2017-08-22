@@ -1,9 +1,9 @@
 <div class="flex-container">
-  <div class="character-box flex-container">
-    <div class="character-image">
+  <div class="container" *ngIf="character">
+    <div class="col-4">
       <img [src]="character.image">
     </div>
-    <div class="character-description">
+    <div class="col-8">
       <ul>
         <li>Name: 
           <span [hidden]="edited">{{ character.name }}</span>
@@ -22,5 +22,10 @@
       <button [hidden]="edited" (click)="edit()">Edit</button>    
       <button [hidden]="!edited" (click)="save(character)">Save</button>
     </div>  
-  </div> 
+  </div>
+  <div class="container" *ngIf="!character">
+    <div class="alert alert-warning">
+        You dont have any character yet. You can <strong routerLink="/character/create">Create one here</strong>
+    </div>
+  </div>
 </div>

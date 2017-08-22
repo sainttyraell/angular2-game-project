@@ -20,7 +20,10 @@ export class GameCharacterComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.character = this.gameCharacterService.getCharacter();
+    this.character = undefined; //this.gameCharacterService.getCharacter();
+    if(!this.character) {
+
+    }
   }
 
   save(character) {

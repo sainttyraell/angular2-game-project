@@ -50,14 +50,13 @@ import { ActivatedRoute, Router } from '@angular/router';
       </div>
     </div>
     <div class="form-group row justify-content-end" [ngSwitch]="formType">
+    <button type="submit" class="btn btn-primary">{{formType}}</button>
     <div *ngSwitchCase="'login'">
-      <button type="submit" class="btn btn-primary">Login</button>
       <button type="button" class="btn btn-secondary ml-2 mr-3" (click)="redirectTo('register')">Register</button>
     </div>
     <div *ngSwitchCase="'register'">
-      <button type="submit" class="btn btn-primary ml-2">Register</button>
       <button type="button" class="btn btn-secondary ml-2 mr-3" (click)="redirectTo('login')">Back</button>
-    </div> 
+    </div>
     </div>
   </div>
   <div class="col-6" *ngIf="registered">

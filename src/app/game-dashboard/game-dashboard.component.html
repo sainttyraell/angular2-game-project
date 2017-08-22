@@ -4,15 +4,13 @@
       <div class="logged-as">
           <h6>Logged as: {{user.email}} 
             <span class="badge badge-primary">Edit</span>
-            <span class="badge badge-danger" (click)="logout()">logout</span>            
+            <span class="badge badge-danger" (click)="logout()">logout</span>         
           </h6>
       </div>
-      <ul class="list-group">
-        <li class="list-group-item">tu bedzie</li>
-        <li class="list-group-item">wybor</li>
-        <li class="list-group-item">akcji</li>
-      </ul>    
+      <game-dashboard-navigation></game-dashboard-navigation>
     </div>
-    <div class="col-8">tu beda wykonywane akcje <br>trzeba to podzielic na komponenty</div>  
+    <div class="col-8">
+      <router-outlet></router-outlet>      
+    </div>
   </div>
 </div>

@@ -12,7 +12,6 @@ export class GameDashboardComponent implements OnInit {
 
   ngOnInit() {
     this.user = this.loginService.getLoggedUser();
-    console.log(this.user);
   }
 
   logout() {
