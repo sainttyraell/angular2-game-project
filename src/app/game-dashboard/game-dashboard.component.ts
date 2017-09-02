@@ -7,11 +7,15 @@ import { GameLoginService } from '../game-login/game-login.service';
   styleUrls: ['./game-dashboard.component.css']
 })
 export class GameDashboardComponent implements OnInit {
-  user;
+  user = {
+    email: ''
+  };
   constructor(private loginService: GameLoginService) { }
 
   ngOnInit() {
-    this.user = this.loginService.getLoggedUser();
+    this.loginService.getLoggedUser().subscribe((user) => {
+      this.user = user;
+    });
   }
 
   logout() {

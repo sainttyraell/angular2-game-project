@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { Subject, Observable } from 'rxjs/Rx';
 
+import { GameLoginService } from '../game-login/game-login.service';
+
 export interface Character {
   name: String;
   race: String;
@@ -15,16 +17,19 @@ export interface Character {
 @Injectable()
 export class GameCharacterService {
 
-  server_url = 'http://localhost:3001/characters';
+  server_url = 'https://59aaf4037f70eb00110191f5.mockapi.io/api/v1/characters';
   races = ['Human', 'Orc', 'Elf', 'Dark Elf'];
   classes = ['Warrior', 'Paladin', 'Mage', 'Rogue'];
   genders = ['Male', 'Female'];
 
   character = {};
+  userId;
+
   private subject = new Subject();
 
   constructor(
-    private http: Http
+    private http: Http,
+    private loginService: GameLoginService
   ) { }
 
   createCharacter(): Character {
@@ -56,10 +61,10 @@ export class GameCharacterService {
     request = this.http.get(this.server_url);
     return request.map(response => {
       const res = response.json();
-      const userId = this.getCurrentUserId();
-      
+      this.getCurrentUserId();
+
       const character = res.find(item => {
-        if (item.owner === userId) {
+        if (item.owner === this.userId) {
           return item;
         }
       });
@@ -73,16 +78,13 @@ export class GameCharacterService {
   }
 
   getCurrentUserId() {
-    const user = JSON.parse(localStorage.getItem('gameUser'));
-    return user.id;
+    this.loginService.getLoggedUser().subscribe(user => {
+      this.userId = user.id;
+    });
   }
 
   saveCharacter(character) {
-    let request;
-    
-    character.owner = this.getCurrentUserId();
-    request = this.http.post(this.server_url, character);
-    
-    return request.map(response => response.json());
+    character.owner = this.userId;
+    return this.http.post(this.server_url, character);
   }
 }

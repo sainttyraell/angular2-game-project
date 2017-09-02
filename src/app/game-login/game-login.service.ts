@@ -17,19 +17,21 @@ export class GameLoginService {
   ) {}
 
   login(user) {
-    const url = 'http://localhost:3000/v1/auth/login';
-    const body = {
-        email: user.email,
-        password: user.password
-    };
+    const url = 'https://59aaf4037f70eb00110191f5.mockapi.io/api/v1/users';
 
-    return this.http.post(url, body).map((response: Response) => {
+    return this.http.get(url).map((response: Response) => {
       const data = response.json();
-      if (data && data.token) {
-          this.token = data.token.accessToken;
-          this.user = data.user;
+      if (data) {
+          this.user = data.find((item) => {
+            return item.email === user.email;
+          });
+
+          if (!this.user) {
+            this.router.navigate(['login']);
+          }
+
+          this.token = this.user.token;
           localStorage.setItem('userToken', this.token);
-          localStorage.setItem('gameUser', JSON.stringify(this.user));
           this.router.navigate(['dashboard']); // temp solution
       }
 
@@ -41,15 +43,15 @@ export class GameLoginService {
   }
 
   register(user) {
-    const url = 'http://localhost:3000/v1/auth/register';
+    const url = 'https://59aaf4037f70eb00110191f5.mockapi.io/api/v1/users';
     const body = {
         email: user.email,
-        password: user.password
+        password: user.password,
+        token: '3fasdfq2fasdfgh23'
     };
 
     return this.http.post(url, body).map((response: Response) => {
       const data = response.json();
-      
       return data;
     })
     .catch(res => {
@@ -63,25 +65,30 @@ export class GameLoginService {
   }
 
   getLoggedUser() {
-    if  (!this.user) {
-      this.user = JSON.parse(localStorage.getItem('gameUser')); // temp solution
-    }
+    const url = 'https://59aaf4037f70eb00110191f5.mockapi.io/api/v1/users';
+    const token = this.getToken();
 
-    if (!this.user) {
-      this.router.navigate(['login']);
-    }
+      return this.http.get(url).map((response: Response) => {
+        const data = response.json();
+        if (data && token) {
+            return data.find((item) => {
+              return item.token === token;
+            });
+        }
 
-    return this.user;
+        return data;
+      })
+      .catch(res => {
+        return Observable.throw(res.json());
+      });
   }
 
   getToken() {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('userToken');
 
     if (!token) {
         return false;
     }
-
-    this.baseOptions.headers.set('Authorization', 'Bearer ' + token);
 
     return token;
   }

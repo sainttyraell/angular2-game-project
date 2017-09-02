@@ -11,9 +11,22 @@
         <li>Race: 
             <span>{{ character.race }}</span>
         </li>
-        <li>Class: {{ character.clas}}</li>
+        <li>Class: {{ character.class}}</li>
         <li>Gender: {{ character.gender}}</li>
         <li>Level: {{ character.level}}</li>
+        <li>
+          <div class="progress">
+              <div 
+                class="progress-bar"
+                role="progressbar" 
+                [ngStyle]="{ width: character.experience + '%'}" 
+                aria-valuemin="0" 
+                aria-valuemax="100"
+               >
+               {{character.experience}}%
+              </div>
+          </div>
+        </li>
       </ul> 
     </div>  
   </div>

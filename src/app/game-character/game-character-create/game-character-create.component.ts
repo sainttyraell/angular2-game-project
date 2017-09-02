@@ -24,7 +24,6 @@ export class GameCharacterCreateComponent implements OnInit {
     this.genders = this.characterService.getGenders();
     this.characterService.getCharacter().subscribe(char => {
       this.character = char;
-      console.log(this.character);
     });
   }
 

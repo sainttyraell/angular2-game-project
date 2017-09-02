@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { GameCharacterService } from './game-character.service';
+import { GameCharacterService, Character } from './game-character.service';
 
 @Component({
   selector: 'game-character',
@@ -8,27 +8,16 @@ import { GameCharacterService } from './game-character.service';
 })
 export class GameCharacterComponent implements OnInit {
   character = {};
-  edited = false;
 
-  constructor(private characterService: GameCharacterService) {
-
-  }
-
-  edit() {
-    this.edited = true;
-  }
+  constructor(
+    private characterService: GameCharacterService
+  ) {}
 
   ngOnInit() {
-    this.characterService.getCharacter().subscribe(
-      char => {
-        this.character = char;
-      }
-    );
-  }
+    this.characterService.getCharacter().subscribe((char: Character) => {
+      this.character = char;
+    });
 
-  save(character) {
-    this.character = this.characterService.saveCharacter(character);
-    this.edited = false;
+    console.log('initialized');
   }
-
 }

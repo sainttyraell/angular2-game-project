@@ -8,9 +8,7 @@ import { Component, OnInit } from '@angular/core';
       <game-login-form formType="login"></game-login-form>
     </div>
   `,
-  styles: [
-    
-  ]
+  styles: []
 })
 export class GameLoginComponent implements OnInit {
 
